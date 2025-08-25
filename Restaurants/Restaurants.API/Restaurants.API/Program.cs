@@ -6,6 +6,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
 using Restaurants.API.Middlewares;
+using Restaurants.Domain.Entities;
 var builder = WebApplication.CreateBuilder(args);
 //new CompactJsonFormatter();
 // Add services to the container.
@@ -42,7 +43,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+//app.MapIdentityApi<User>();
 app.UseAuthorization();
 
 app.MapControllers();
