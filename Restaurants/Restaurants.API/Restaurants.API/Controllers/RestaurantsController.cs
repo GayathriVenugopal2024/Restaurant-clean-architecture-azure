@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Restaurants;
 using Restaurants.Application.Restaurants.Commands.CreateRestaurants;
@@ -13,9 +14,11 @@ namespace Restaurants.API.Controllers;
 
 [ApiController]
 [Route("api/restaurants")]
+
 public class RestaurantsController(IMediator mediator) :ControllerBase
 {
     [HttpGet]
+    [Authorize(Roles="Reader") ]
     [ProducesResponseType(StatusCodes.Status200OK,Type =typeof(IEnumerable<RestaurantDto>))]
     public async Task< IActionResult> GetAll()
     {
@@ -24,6 +27,8 @@ public class RestaurantsController(IMediator mediator) :ControllerBase
     }
     [HttpGet]
     [Route("/{id}")]
+    [Authorize(Roles = "Writer")]
+    //[Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<RestaurantDto>> GetById([FromRoute]int id)

@@ -14,14 +14,12 @@ namespace Restaurants.Infrastructure.Extensions
     {
         public static void AddInfrastructure(this IServiceCollection services,IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("RestaurantsDB");
-            services.AddDbContext<RestaurantsDbContext>(option=>option.UseSqlServer(connectionString).EnableSensitiveDataLogging());
+            var RestaurantdbConnectionString = configuration.GetConnectionString("RestaurantsDB");
+            var AuthenticationdbConnectionString = configuration.GetConnectionString("AuthenticationDB");
+            services.AddDbContext<RestaurantsDbContext>(option=>option.UseSqlServer(RestaurantdbConnectionString).EnableSensitiveDataLogging());
+            services.AddDbContext<AuthenticationDbContext>(option => option.UseSqlServer(AuthenticationdbConnectionString));
              
-            //services.AddIdentityApiEndpoints<User>()
-            //   .AddEntityFrameWrokStores<RestaurantsDbContext>();
-   //         services.AddIdentityCore<User>()
-   //.AddEntityFrameworkStores<RestaurantsDbContext>();
-  // .AddApiEndpoints();
+            
 
             services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
             services.AddScoped<IRestaurantsRepository, RestaurantsRepositories>();
